@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use File;
 use Auth;
 use Gate;
 use App\Tag;
@@ -113,6 +114,25 @@ class RobotController extends Controller
         $this->authorize('update', $robot);
         $robot->update($request->all());
         $robot->tags()->sync($request->tags);
+
+        if($request->hasFile('link')) {
+            if(!empty($robot->link)) {
+                File::delete(public_path('images') . DIRECTORY_SEPARATOR . $robot->link);
+                $robot->link = '';
+            }
+
+            $ext = $request->link->extension();
+            $linkName = str_random(12) . '.' . $ext;
+            $request->link->storeAs('images', $linkName );
+            $robot->link = $linkName;
+            $robot->save();   
+        }
+
+        if(!empty($robot->link) && empty($request->imageRobot)) {
+            File::delete(public_path('images') . DIRECTORY_SEPARATOR . $robot->link);
+            $robot->link = '';
+            $robot->save();
+        }
 
         return redirect()->route('robot.index')->with('message', sprintf('Le robot %s a bien été modifié.', $robot->name));
     }

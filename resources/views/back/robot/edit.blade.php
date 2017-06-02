@@ -74,15 +74,17 @@
     </div>
    <div class="row">
         <div class="col s12">
-        <div class="file-field input-field">
-            <div class="btn">
-                <span>Photo</span>
-                <input name="link" type="file">
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>Photo</span>
+                    <input name="link" type="file">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" id="img-robot" type="text" name="imageRobot" value="{{$robot->link}}">
+                </div>
             </div>
-            <div class="file-path-wrapper">
-                <input class="file-path validate" type="text" value="{{$robot->link}}">
-            </div>
-        </div>
+
+            <a id="clear" onclick="$('#img-robot').val('')" style="cursor:pointer">Supprimer la photo</a>
     </div>    
 </div>
     <div class="row robot-marge">

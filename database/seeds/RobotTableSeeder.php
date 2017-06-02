@@ -48,7 +48,7 @@ class RobotTableSeeder extends Seeder {
             File::put($uploads . DIRECTORY_SEPARATOR . $uri, $image);
 
             $robot->link = $uri;
-
+ 
             $robot->save();
 
         });
